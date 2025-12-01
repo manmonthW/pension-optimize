@@ -1,14 +1,21 @@
-# 养老最优解小程序 v2.0
+# 养老最优解 v2.0
 
-一个帮助用户计算最优退休方案的微信小程序，支持多维度参数输入，自动模拟未来缴费，对比不同退休年龄的收益差异。
+一个帮助用户计算最优退休方案的智能工具，支持多维度参数输入，自动模拟未来缴费，对比不同退休年龄的收益差异。
 
 **✨ 纯前端实现，无需后端服务，开箱即用！**
+
+## 🚀 双版本支持
+
+- **微信小程序版** - 原生微信小程序体验
+- **Web 版** - 可部署到 Vercel、Netlify 等平台，支持浏览器访问
+
+> 📖 详细部署指南请查看 [DEPLOYMENT.md](./DEPLOYMENT.md)
 
 ## 项目结构
 
 ```
 pension-v2.0/
-├── miniprogram/            # 小程序（全部代码）
+├── miniprogram/            # 微信小程序版本
 │   ├── components/        # 公共组件
 │   │   ├── level-selector/    # 缴费等级选择器
 │   │   └── plan-card/         # 方案卡片
@@ -25,8 +32,20 @@ pension-v2.0/
 │   ├── app.json
 │   └── app.wxss
 │
+├── web/                    # Web版本（可部署到Vercel等平台）
+│   ├── index.html         # 主页面
+│   ├── css/
+│   │   └── style.css      # 样式文件
+│   └── js/
+│       ├── cityConfig.js  # 城市配置
+│       ├── pensionCalc.js # 计算引擎
+│       └── app.js         # 应用逻辑
+│
+├── vercel.json             # Vercel部署配置
+├── DEPLOYMENT.md           # 部署指南
 ├── PRD.md                  # 产品需求文档
-└── Tech Spec v1.0.md       # 技术规格文档
+├── Tech Spec v1.0.md       # 技术规格文档
+└── 用户使用手册.md         # 用户使用手册
 ```
 
 ## 功能特性
@@ -49,18 +68,45 @@ pension-v2.0/
 
 ## 快速开始
 
-### 1️⃣ 导入项目
+### 微信小程序版
+
+#### 1️⃣ 导入项目
 - 打开微信开发者工具
 - 选择"导入项目"
 - 选择 `miniprogram` 目录
 - 填写 AppID（测试可使用测试号）
 
-### 2️⃣ 编译运行
+#### 2️⃣ 编译运行
 - 点击"编译"按钮
 - 在模拟器中查看效果
 - 或扫码在真机上预览
 
 **就是这么简单！无需安装依赖，无需启动后端服务！**
+
+### Web 版
+
+#### 方法1：本地预览
+```bash
+# 直接打开 web/index.html 文件
+# 或使用任意静态服务器
+cd web
+python -m http.server 8000
+# 访问 http://localhost:8000
+```
+
+#### 方法2：部署到 Vercel（推荐）
+```bash
+# 1. 安装 Vercel CLI
+npm install -g vercel
+
+# 2. 部署
+vercel
+
+# 3. 生产环境部署
+vercel --prod
+```
+
+> 详细部署步骤请参考 [DEPLOYMENT.md](./DEPLOYMENT.md)
 
 ## 技术架构
 

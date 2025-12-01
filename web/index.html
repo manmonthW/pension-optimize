@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="养老最优解 - 智能养老金计算与退休方案优化工具">
+  <title>养老最优解 - 智能养老金计算器</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>🎯 养老最优解</h1>
+      <p class="subtitle">智能养老金计算与退休方案优化</p>
+    </header>
+
+    <!-- Input Form -->
+    <section class="input-section" id="inputSection">
+      <div class="card">
+        <h2 class="section-title">📝 基本信息</h2>
+
+        <form id="pensionForm">
+          <div class="form-group">
+            <label for="city">城市</label>
+            <select id="city" name="city" required>
+              <option value="北京">北京</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="currentAge">当前年龄</label>
+            <input type="number" id="currentAge" name="currentAge" min="16" max="65" required placeholder="16-65岁">
+          </div>
+
+          <div class="form-group">
+            <label for="gender">性别</label>
+            <select id="gender" name="gender" required>
+              <option value="女">女</option>
+              <option value="男">男</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="normalRetireAge">正常退休年龄</label>
+            <input type="number" id="normalRetireAge" name="normalRetireAge" min="50" max="65" required placeholder="50-65岁">
+          </div>
+
+          <div class="form-group">
+            <label for="maxRetireAge">最晚退休年龄</label>
+            <input type="number" id="maxRetireAge" name="maxRetireAge" min="50" max="65" required placeholder="50-65岁">
+          </div>
+
+          <div class="form-group">
+            <label for="paymentYears">已缴费年限</label>
+            <input type="number" id="paymentYears" name="paymentYears" min="0" max="50" step="0.1" required placeholder="年">
+          </div>
+
+          <div class="form-group">
+            <label for="currentAccount">当前个人账户余额</label>
+            <input type="number" id="currentAccount" name="currentAccount" min="0" step="0.01" required placeholder="元">
+          </div>
+
+          <div class="form-group">
+            <label for="paymentBase">当前缴费基数</label>
+            <input type="number" id="paymentBase" name="paymentBase" min="0" step="1" required placeholder="元">
+            <small id="baseHint" class="hint">北京2025基数范围 7162 - 35811 元</small>
+          </div>
+
+          <div class="form-group">
+            <label for="employmentStatus">就业状态</label>
+            <select id="employmentStatus" name="employmentStatus" required>
+              <option value="在职">在职（单位+个人缴费）</option>
+              <option value="灵活就业">灵活就业（个人全额缴费）</option>
+              <option value="失业补贴内">失业（补贴期内）</option>
+              <option value="失业补贴外">失业（补贴期外）</option>
+            </select>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" id="eligible4050" name="eligible4050">
+              <span>符合4050补贴资格</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary">开始计算</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section hidden" id="resultsSection">
+      <!-- Best Plan Card -->
+      <div class="header-card">
+        <div class="best-plan-badge">🏆 推荐最优方案</div>
+        <div class="best-plan-title" id="bestPlanName"></div>
+        <div class="best-plan-pension">
+          <span class="amount" id="bestPlanAmount"></span>
+          <span class="unit">元/月</span>
+        </div>
+        <div class="best-plan-reasons">
+          <div class="reason-item">
+            <div class="reason-label">基础养老金</div>
+            <div class="reason-value" id="bestBasePension"></div>
+          </div>
+          <div class="reason-item">
+            <div class="reason-label">个人账户养老金</div>
+            <div class="reason-value" id="bestAccountPension"></div>
+          </div>
+          <div class="reason-item">
+            <div class="reason-label">回本时间</div>
+            <div class="reason-value" id="bestBreakEven"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Evaluation Standard Card -->
+      <div class="card standard-card">
+        <h2 class="section-title">📊 最优方案评选标准</h2>
+        <p class="standard-desc">系统采用三维度智能评分算法，综合评估各退休方案的优劣：</p>
+
+        <div class="standard-list">
+          <div class="standard-item">
+            <div class="standard-header">
+              <span class="standard-icon">💰</span>
+              <span class="standard-name">月养老金增长率</span>
+              <span class="standard-weight">权重 50%</span>
+            </div>
+            <p class="standard-detail">延迟退休可增加缴费年限和个人账户余额，显著提升月养老金</p>
+          </div>
+
+          <div class="standard-item">
+            <div class="standard-header">
+              <span class="standard-icon">⏱️</span>
+              <span class="standard-name">回本周期优化率</span>
+              <span class="standard-weight">权重 30%</span>
+            </div>
+            <p class="standard-detail">回本越快，投资效益越高，降低长寿风险</p>
+          </div>
+
+          <div class="standard-item">
+            <div class="standard-header">
+              <span class="standard-icon">💸</span>
+              <span class="standard-name">缴费成本节约率</span>
+              <span class="standard-weight">权重 20%</span>
+            </div>
+            <p class="standard-detail">在获得更高养老金的同时，尽可能减少总缴费支出</p>
+          </div>
+        </div>
+
+        <div class="standard-formula">
+          <div class="formula-title">综合评分公式：</div>
+          <div class="formula-content">Score = 养老金增长率 × 0.5 + 回本优化率 × 0.3 + 成本节约率 × 0.2</div>
+        </div>
+      </div>
+
+      <!-- Advantages Card -->
+      <div class="card advantage-card hidden" id="advantageCard">
+        <h2 class="section-title">✨ 推荐理由</h2>
+        <p class="advantage-subtitle" id="advantageSubtitle"></p>
+        <div class="advantage-list" id="advantageList"></div>
+        <div class="advantage-score">
+          <span class="score-label">综合评分：</span>
+          <span class="score-value" id="totalScore"></span>
+          <span class="score-max">/100</span>
+        </div>
+      </div>
+
+      <!-- All Plans Comparison -->
+      <div class="card">
+        <h2 class="section-title">📋 全部方案对比</h2>
+        <div class="plans-list" id="plansList"></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-secondary" onclick="resetCalculation()">重新计算</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>养老最优解 v2.0 | 数据仅供参考，请以实际政策为准</p>
+      <p><a href="https://github.com/manmonthW/pension-optimize" target="_blank">GitHub</a></p>
+    </footer>
+  </div>
+
+  <script src="js/cityConfig.js"></script>
+  <script src="js/pensionCalc.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
