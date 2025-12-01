@@ -1,0 +1,71 @@
+<view class="container">
+  <view class="header">
+    <view class="plan-name">{{plan.name}}</view>
+    <view class="recommended-badge" wx:if="{{plan.recommended}}">推荐方案</view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">退休时信息</view>
+    <view class="info-grid">
+      <view class="info-item">
+        <view class="info-label">退休年龄</view>
+        <view class="info-value">{{plan.age}}岁</view>
+      </view>
+      <view class="info-item">
+        <view class="info-label">计发月数</view>
+        <view class="info-value">{{plan.N}}月</view>
+      </view>
+      <view class="info-item">
+        <view class="info-label">累计缴费年限</view>
+        <view class="info-value">{{plan.totalYears}}年</view>
+      </view>
+      <view class="info-item">
+        <view class="info-label">个人账户余额</view>
+        <view class="info-value">{{plan.accountAtRetire}}元</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">养老金构成</view>
+    <view class="pension-breakdown">
+      <view class="breakdown-item">
+        <view class="breakdown-label">基础养老金</view>
+        <view class="breakdown-value primary">{{plan.basePension}}元</view>
+      </view>
+      <view class="breakdown-plus">+</view>
+      <view class="breakdown-item">
+        <view class="breakdown-label">个人账户养老金</view>
+        <view class="breakdown-value primary">{{plan.accountPension}}元</view>
+      </view>
+      <view class="breakdown-divider"></view>
+      <view class="breakdown-item total">
+        <view class="breakdown-label">月养老金总额</view>
+        <view class="breakdown-value highlight">{{plan.monthlyPension}}元</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">收益测算</view>
+    <view class="benefit-grid">
+      <view class="benefit-item">
+        <view class="benefit-label">总缴费金额</view>
+        <view class="benefit-value">{{plan.totalPayment}}万元</view>
+      </view>
+      <view class="benefit-item">
+        <view class="benefit-label">回本周期</view>
+        <view class="benefit-value">{{plan.breakEvenMonths}}个月</view>
+        <view class="benefit-hint">约{{breakEvenYears}}年</view>
+      </view>
+    </view>
+
+    <view class="benefit-summary">
+      <text>{{plan.summary}}</text>
+    </view>
+  </view>
+
+  <view class="actions">
+    <button class="btn-secondary" bindtap="onBack">返回对比</button>
+  </view>
+</view>

@@ -1,0 +1,49 @@
+.header {
+  text-align: center;
+  padding: 40rpx 0 30rpx;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #1890ff;
+  margin-bottom: 16rpx;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.picker {
+  background: #f7f7f7;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.birth-picker {
+  display: flex;
+  gap: 20rpx;
+}
+
+.picker-inline {
+  background: #f7f7f7;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: #333;
+  flex: 1;
+  text-align: center;
+}
+
+.radio-item {
+  display: inline-block;
+  margin-right: 40rpx;
+  font-size: 28rpx;
+}
+
+.submit-container {
+  padding: 40rpx 20rpx;
+}

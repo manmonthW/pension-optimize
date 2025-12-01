@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "养老最优解",
+  "usingComponents": {
+    "level-selector": "/components/level-selector/level-selector"
+  }
+}

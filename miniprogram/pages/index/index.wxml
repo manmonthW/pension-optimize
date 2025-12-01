@@ -1,0 +1,89 @@
+<view class="container">
+  <view class="header">
+    <view class="title">养老最优解计算器</view>
+    <view class="subtitle">30秒找到你的最佳退休方案</view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">基本信息</view>
+
+    <view class="form-item">
+      <view class="form-label">人员类型</view>
+      <picker mode="selector" range="{{personTypes}}" value="{{personTypeIndex}}" bindchange="onPersonTypeChange">
+        <view class="picker">
+          {{personTypes[personTypeIndex]}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">出生年月</view>
+      <view class="birth-picker">
+        <picker mode="selector" range="{{years}}" value="{{yearIndex}}" bindchange="onYearChange">
+          <view class="picker-inline">{{years[yearIndex]}}年</view>
+        </picker>
+        <picker mode="selector" range="{{months}}" value="{{monthIndex}}" bindchange="onMonthChange">
+          <view class="picker-inline">{{months[monthIndex]}}月</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">城市</view>
+      <picker mode="selector" range="{{cities}}" value="{{cityIndex}}" bindchange="onCityChange">
+        <view class="picker">
+          {{cities[cityIndex]}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">社保信息</view>
+
+    <view class="form-item">
+      <view class="form-label">当前就业状态</view>
+      <picker mode="selector" range="{{employmentStatusList}}" value="{{employmentStatusIndex}}" bindchange="onEmploymentStatusChange">
+        <view class="picker">
+          {{employmentStatusList[employmentStatusIndex]}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">当前缴费基数（元）</view>
+      <input class="form-input" type="digit" placeholder="请输入缴费基数" value="{{formData.paymentBase}}" bindinput="onPaymentBaseInput" />
+      <view class="hint-text">{{baseHint}}</view>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">累计缴费年限（年）</view>
+      <input class="form-input" type="digit" placeholder="请输入缴费年限" value="{{formData.paidYears}}" bindinput="onPaidYearsInput" />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">个人账户余额（元）</view>
+      <input class="form-input" type="digit" placeholder="请输入账户余额" value="{{formData.accountBalance}}" bindinput="onAccountBalanceInput" />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">是否享受4050补贴</view>
+      <radio-group bindchange="on4050Change">
+        <label class="radio-item">
+          <radio value="true" checked="{{formData.is4050}}" />是
+        </label>
+        <label class="radio-item">
+          <radio value="false" checked="{{!formData.is4050}}" />否
+        </label>
+      </radio-group>
+    </view>
+  </view>
+
+  <view class="card">
+    <level-selector defaultLevel="{{formData.level}}" bind:change="onLevelChange" />
+  </view>
+
+  <view class="submit-container">
+    <button class="btn-primary" bindtap="onSubmit">计算我的最优退休方案</button>
+  </view>
+</view>

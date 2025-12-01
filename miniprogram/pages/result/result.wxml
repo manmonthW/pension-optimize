@@ -1,0 +1,132 @@
+<view class="container">
+  <view class="header-card">
+    <view class="best-plan-badge">🏆 推荐最优方案</view>
+    <view class="best-plan-title">{{bestPlan.name}}</view>
+    <view class="best-plan-pension">
+      <text class="amount">{{bestPlan.monthlyPension}}</text>
+      <text class="unit">元/月</text>
+    </view>
+
+    <view class="best-plan-reasons">
+      <view class="reason-item">
+        <view class="reason-label">基础养老金</view>
+        <view class="reason-value">{{bestPlan.basePension}}元</view>
+      </view>
+      <view class="reason-item">
+        <view class="reason-label">个人账户养老金</view>
+        <view class="reason-value">{{bestPlan.accountPension}}元</view>
+      </view>
+      <view class="reason-item">
+        <view class="reason-label">回本时间</view>
+        <view class="reason-value">{{bestPlan.breakEvenMonths}}个月</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 评选标准说明 -->
+  <view class="card standard-card">
+    <view class="section-title">📊 最优方案评选标准</view>
+    <view class="standard-desc">
+      系统采用三维度智能评分算法，综合评估各退休方案的优劣：
+    </view>
+
+    <view class="standard-list">
+      <view class="standard-item">
+        <view class="standard-header">
+          <view class="standard-icon">💰</view>
+          <view class="standard-name">月养老金增长率</view>
+          <view class="standard-weight">权重 50%</view>
+        </view>
+        <view class="standard-detail">延迟退休可增加缴费年限和个人账户余额，显著提升月养老金</view>
+      </view>
+
+      <view class="standard-item">
+        <view class="standard-header">
+          <view class="standard-icon">⏱️</view>
+          <view class="standard-name">回本周期优化率</view>
+          <view class="standard-weight">权重 30%</view>
+        </view>
+        <view class="standard-detail">回本越快，投资效益越高，降低长寿风险</view>
+      </view>
+
+      <view class="standard-item">
+        <view class="standard-header">
+          <view class="standard-icon">💸</view>
+          <view class="standard-name">缴费成本节约率</view>
+          <view class="standard-weight">权重 20%</view>
+        </view>
+        <view class="standard-detail">在获得更高养老金的同时，尽可能减少总缴费支出</view>
+      </view>
+    </view>
+
+    <view class="standard-formula">
+      <view class="formula-title">综合评分公式：</view>
+      <view class="formula-content">
+        Score = 养老金增长率 × 0.5 + 回本优化率 × 0.3 + 成本节约率 × 0.2
+      </view>
+    </view>
+  </view>
+
+  <!-- 推荐理由详情 -->
+  <view class="card advantage-card" wx:if="{{advantages}}">
+    <view class="section-title">✨ 推荐理由</view>
+    <view class="advantage-subtitle">相比正常退休方案（{{baselineName}}），本方案具有以下优势：</view>
+
+    <view class="advantage-list">
+      <view class="advantage-item" wx:if="{{advantages.pensionIncrease > 0}}">
+        <view class="advantage-icon increase">▲</view>
+        <view class="advantage-content">
+          <view class="advantage-title">月养老金提升</view>
+          <view class="advantage-value">+{{advantages.pensionIncrease}}元/月</view>
+          <view class="advantage-percent">增幅 {{advantages.pensionIncreasePercent}}%</view>
+        </view>
+      </view>
+
+      <view class="advantage-item" wx:if="{{advantages.breakEvenImprove > 0}}">
+        <view class="advantage-icon improve">✓</view>
+        <view class="advantage-content">
+          <view class="advantage-title">回本时间缩短</view>
+          <view class="advantage-value">快 {{advantages.breakEvenImprove}}个月</view>
+          <view class="advantage-percent">提前 {{advantages.breakEvenImprovePercent}}%</view>
+        </view>
+      </view>
+
+      <view class="advantage-item" wx:if="{{advantages.costDecrease > 0}}">
+        <view class="advantage-icon save">↓</view>
+        <view class="advantage-content">
+          <view class="advantage-title">总缴费节省</view>
+          <view class="advantage-value">省 {{advantages.costDecrease}}万元</view>
+          <view class="advantage-percent">节省 {{advantages.costDecreasePercent}}%</view>
+        </view>
+      </view>
+
+      <view class="advantage-item" wx:if="{{advantages.accountIncrease > 0}}">
+        <view class="advantage-icon account">📈</view>
+        <view class="advantage-content">
+          <view class="advantage-title">个人账户余额</view>
+          <view class="advantage-value">多 {{advantages.accountIncrease}}元</view>
+          <view class="advantage-percent">增加 {{advantages.accountIncreasePercent}}%</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="advantage-score">
+      <text class="score-label">综合评分：</text>
+      <text class="score-value">{{advantages.totalScore}}</text>
+      <text class="score-max">/100</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">📋 全部方案对比</view>
+    <view class="plans-list">
+      <block wx:for="{{plans}}" wx:key="age">
+        <plan-card plan="{{item}}" bind:tap="onPlanTap" />
+      </block>
+    </view>
+  </view>
+
+  <view class="actions">
+    <button class="btn-secondary" bindtap="onBack">重新计算</button>
+  </view>
+</view>

@@ -1,0 +1,52 @@
+.level-selector {
+  padding: 20rpx 0;
+}
+
+.level-title {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 24rpx;
+  font-weight: 500;
+}
+
+.level-options {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.level-option {
+  flex: 1;
+  background: #f7f7f7;
+  border-radius: 12rpx;
+  padding: 24rpx 16rpx;
+  text-align: center;
+  border: 2rpx solid transparent;
+  transition: all 0.3s;
+}
+
+.level-option.active {
+  background: linear-gradient(135deg, #e6f7ff 0%, #d9f0ff 100%);
+  border-color: #1890ff;
+  box-shadow: 0 4rpx 12rpx rgba(24, 144, 255, 0.2);
+}
+
+.level-value {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.level-option.active .level-value {
+  color: #1890ff;
+}
+
+.level-desc {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.level-option.active .level-desc {
+  color: #1890ff;
+}

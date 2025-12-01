@@ -1,0 +1,40 @@
+<view class="level-selector">
+  <view class="level-title">请选择缴费指数 level：</view>
+  <view class="level-options">
+    <view
+      class="level-option {{selectedLevel === 60 ? 'active' : ''}}"
+      bindtap="selectLevel"
+      data-level="{{60}}"
+    >
+      <view class="level-value">60%</view>
+      <view class="level-desc">较低</view>
+    </view>
+
+    <view
+      class="level-option {{selectedLevel === 100 ? 'active' : ''}}"
+      bindtap="selectLevel"
+      data-level="{{100}}"
+    >
+      <view class="level-value">100%</view>
+      <view class="level-desc">标准</view>
+    </view>
+
+    <view
+      class="level-option {{selectedLevel === 200 ? 'active' : ''}}"
+      bindtap="selectLevel"
+      data-level="{{200}}"
+    >
+      <view class="level-value">200%</view>
+      <view class="level-desc">较高</view>
+    </view>
+
+    <view
+      class="level-option {{selectedLevel === 300 ? 'active' : ''}}"
+      bindtap="selectLevel"
+      data-level="{{300}}"
+    >
+      <view class="level-value">300%</view>
+      <view class="level-desc">最高</view>
+    </view>
+  </view>
+</view>

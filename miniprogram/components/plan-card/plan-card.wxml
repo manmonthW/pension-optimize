@@ -1,0 +1,28 @@
+<view class="plan-card {{plan.recommended ? 'recommended' : ''}}" bindtap="onTap">
+  <view class="plan-header">
+    <view class="plan-name">{{plan.name}}</view>
+    <view class="plan-badge" wx:if="{{plan.recommended}}">推荐</view>
+  </view>
+
+  <view class="plan-pension">
+    <text class="pension-amount">{{plan.monthlyPension}}</text>
+    <text class="pension-unit">元/月</text>
+  </view>
+
+  <view class="plan-details">
+    <view class="detail-item">
+      <text class="detail-label">总缴费</text>
+      <text class="detail-value">{{plan.totalPayment}}万</text>
+    </view>
+    <view class="detail-item">
+      <text class="detail-label">退休时账户</text>
+      <text class="detail-value">{{plan.accountAtRetire}}元</text>
+    </view>
+    <view class="detail-item">
+      <text class="detail-label">回本周期</text>
+      <text class="detail-value">{{plan.breakEvenMonths}}个月</text>
+    </view>
+  </view>
+
+  <view class="plan-summary">{{plan.summary}}</view>
+</view>
