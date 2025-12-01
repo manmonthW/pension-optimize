@@ -11,16 +11,17 @@
   <div class="container">
     <!-- Header -->
     <header class="header">
-      <h1>🎯 养老最优解</h1>
-      <p class="subtitle">智能养老金计算与退休方案优化</p>
+      <h1>养老最优解计算器</h1>
+      <p class="subtitle">30秒找到你的最佳退休方案</p>
     </header>
 
     <!-- Input Form -->
     <section class="input-section" id="inputSection">
-      <div class="card">
-        <h2 class="section-title">📝 基本信息</h2>
+      <form id="pensionForm">
+        <!-- 基本信息卡片 -->
+        <div class="card">
+          <h2 class="section-title">基本信息</h2>
 
-        <form id="pensionForm">
           <div class="form-group">
             <label for="city">城市</label>
             <select id="city" name="city" required>
@@ -30,7 +31,7 @@
 
           <div class="form-group">
             <label for="currentAge">当前年龄</label>
-            <input type="number" id="currentAge" name="currentAge" min="16" max="65" required placeholder="16-65岁">
+            <input type="number" id="currentAge" name="currentAge" min="16" max="65" required placeholder="请输入当前年龄">
           </div>
 
           <div class="form-group">
@@ -43,74 +44,89 @@
 
           <div class="form-group">
             <label for="normalRetireAge">正常退休年龄</label>
-            <input type="number" id="normalRetireAge" name="normalRetireAge" min="50" max="65" required placeholder="50-65岁">
+            <input type="number" id="normalRetireAge" name="normalRetireAge" min="50" max="65" required placeholder="请输入正常退休年龄">
           </div>
 
           <div class="form-group">
             <label for="maxRetireAge">最晚退休年龄</label>
-            <input type="number" id="maxRetireAge" name="maxRetireAge" min="50" max="65" required placeholder="50-65岁">
+            <input type="number" id="maxRetireAge" name="maxRetireAge" min="50" max="65" required placeholder="请输入最晚退休年龄">
+          </div>
+        </div>
+
+        <!-- 社保信息卡片 -->
+        <div class="card">
+          <h2 class="section-title">社保信息</h2>
+
+          <div class="form-group">
+            <label for="employmentStatus">当前就业状态</label>
+            <select id="employmentStatus" name="employmentStatus" required>
+              <option value="在职">在职</option>
+              <option value="灵活就业">灵活就业</option>
+              <option value="失业补贴内">失业补贴内</option>
+              <option value="失业补贴外">失业补贴外</option>
+            </select>
           </div>
 
           <div class="form-group">
-            <label for="paymentYears">已缴费年限</label>
-            <input type="number" id="paymentYears" name="paymentYears" min="0" max="50" step="0.1" required placeholder="年">
-          </div>
-
-          <div class="form-group">
-            <label for="currentAccount">当前个人账户余额</label>
-            <input type="number" id="currentAccount" name="currentAccount" min="0" step="0.01" required placeholder="元">
-          </div>
-
-          <div class="form-group">
-            <label for="paymentBase">当前缴费基数</label>
-            <input type="number" id="paymentBase" name="paymentBase" min="0" step="1" required placeholder="元">
+            <label for="paymentBase">当前缴费基数（元）</label>
+            <input type="number" id="paymentBase" name="paymentBase" min="0" step="1" required placeholder="请输入缴费基数">
             <small id="baseHint" class="hint">北京2025基数范围 7162 - 35811 元</small>
           </div>
 
           <div class="form-group">
-            <label>未来缴费指数 level</label>
-            <small class="hint" style="display: block; margin-bottom: 10px;">选择未来按当前基数的百分比缴费</small>
-            <div class="level-selector" id="levelSelector">
-              <div class="level-option" data-level="60">
-                <div class="level-value">60%</div>
-                <div class="level-desc">较低</div>
-              </div>
-              <div class="level-option active" data-level="100">
-                <div class="level-value">100%</div>
-                <div class="level-desc">标准</div>
-              </div>
-              <div class="level-option" data-level="200">
-                <div class="level-value">200%</div>
-                <div class="level-desc">较高</div>
-              </div>
-              <div class="level-option" data-level="300">
-                <div class="level-value">300%</div>
-                <div class="level-desc">最高</div>
-              </div>
-            </div>
-            <input type="hidden" id="level" name="level" value="100">
+            <label for="paymentYears">累计缴费年限（年）</label>
+            <input type="number" id="paymentYears" name="paymentYears" min="0" max="50" step="0.1" required placeholder="请输入缴费年限">
           </div>
 
           <div class="form-group">
-            <label for="employmentStatus">就业状态</label>
-            <select id="employmentStatus" name="employmentStatus" required>
-              <option value="在职">在职（单位+个人缴费）</option>
-              <option value="灵活就业">灵活就业（个人全额缴费）</option>
-              <option value="失业补贴内">失业（补贴期内）</option>
-              <option value="失业补贴外">失业（补贴期外）</option>
-            </select>
+            <label for="currentAccount">个人账户余额（元）</label>
+            <input type="number" id="currentAccount" name="currentAccount" min="0" step="0.01" required placeholder="请输入账户余额">
           </div>
 
-          <div class="form-group checkbox-group">
-            <label>
-              <input type="checkbox" id="eligible4050" name="eligible4050">
-              <span>符合4050补贴资格</span>
-            </label>
+          <div class="form-group">
+            <label class="form-label">是否享受4050补贴</label>
+            <div class="radio-group">
+              <label class="radio-item">
+                <input type="radio" name="eligible4050" value="true">
+                <span>是</span>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="eligible4050" value="false" checked>
+                <span>否</span>
+              </label>
+            </div>
           </div>
+        </div>
 
-          <button type="submit" class="btn-primary">开始计算</button>
-        </form>
-      </div>
+        <!-- 缴费指数卡片 -->
+        <div class="card">
+          <h2 class="level-title">请选择缴费指数 level：</h2>
+          <div class="level-selector" id="levelSelector">
+            <div class="level-option" data-level="60">
+              <div class="level-value">60%</div>
+              <div class="level-desc">较低</div>
+            </div>
+            <div class="level-option active" data-level="100">
+              <div class="level-value">100%</div>
+              <div class="level-desc">标准</div>
+            </div>
+            <div class="level-option" data-level="200">
+              <div class="level-value">200%</div>
+              <div class="level-desc">较高</div>
+            </div>
+            <div class="level-option" data-level="300">
+              <div class="level-value">300%</div>
+              <div class="level-desc">最高</div>
+            </div>
+          </div>
+          <input type="hidden" id="level" name="level" value="100">
+        </div>
+
+        <!-- 提交按钮 -->
+        <div class="submit-container">
+          <button type="submit" class="btn-primary">计算我的最优退休方案</button>
+        </div>
+      </form>
     </section>
 
     <!-- Results Section -->

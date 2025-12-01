@@ -56,7 +56,7 @@ pensionForm.addEventListener('submit', (e) => {
       currentAccount: parseFloat(formData.get('currentAccount')),
       paymentBase: parseFloat(formData.get('paymentBase')),
       employmentStatus: formData.get('employmentStatus'),
-      eligible4050: formData.get('eligible4050') === 'on',
+      eligible4050: formData.get('eligible4050') === 'true',
       level: parseInt(formData.get('level'))
     };
 
