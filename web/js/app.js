@@ -4,12 +4,31 @@ const inputSection = document.getElementById('inputSection');
 const resultsSection = document.getElementById('resultsSection');
 const citySelect = document.getElementById('city');
 const baseHint = document.getElementById('baseHint');
+const levelSelector = document.getElementById('levelSelector');
+const levelInput = document.getElementById('level');
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
   updateBaseHint();
   citySelect.addEventListener('change', updateBaseHint);
+  initLevelSelector();
 });
+
+// 初始化缴费指数选择器
+function initLevelSelector() {
+  const options = levelSelector.querySelectorAll('.level-option');
+  options.forEach(option => {
+    option.addEventListener('click', () => {
+      // 移除所有选项的active类
+      options.forEach(opt => opt.classList.remove('active'));
+      // 添加当前选项的active类
+      option.classList.add('active');
+      // 更新隐藏输入框的值
+      const level = parseInt(option.getAttribute('data-level'));
+      levelInput.value = level;
+    });
+  });
+}
 
 // 更新缴费基数提示
 function updateBaseHint() {
@@ -37,7 +56,8 @@ pensionForm.addEventListener('submit', (e) => {
       currentAccount: parseFloat(formData.get('currentAccount')),
       paymentBase: parseFloat(formData.get('paymentBase')),
       employmentStatus: formData.get('employmentStatus'),
-      eligible4050: formData.get('eligible4050') === 'on'
+      eligible4050: formData.get('eligible4050') === 'on',
+      level: parseInt(formData.get('level'))
     };
 
     // 显示加载状态

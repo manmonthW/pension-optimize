@@ -68,6 +68,30 @@
           </div>
 
           <div class="form-group">
+            <label>未来缴费指数 level</label>
+            <small class="hint" style="display: block; margin-bottom: 10px;">选择未来按当前基数的百分比缴费</small>
+            <div class="level-selector" id="levelSelector">
+              <div class="level-option" data-level="60">
+                <div class="level-value">60%</div>
+                <div class="level-desc">较低</div>
+              </div>
+              <div class="level-option active" data-level="100">
+                <div class="level-value">100%</div>
+                <div class="level-desc">标准</div>
+              </div>
+              <div class="level-option" data-level="200">
+                <div class="level-value">200%</div>
+                <div class="level-desc">较高</div>
+              </div>
+              <div class="level-option" data-level="300">
+                <div class="level-value">300%</div>
+                <div class="level-desc">最高</div>
+              </div>
+            </div>
+            <input type="hidden" id="level" name="level" value="100">
+          </div>
+
+          <div class="form-group">
             <label for="employmentStatus">就业状态</label>
             <select id="employmentStatus" name="employmentStatus" required>
               <option value="在职">在职（单位+个人缴费）</option>

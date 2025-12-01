@@ -102,7 +102,8 @@ function simulateFuturePay(input, retireAge, cityCfg) {
     paymentYears,
     currentAccount,
     employmentStatus,
-    eligible4050
+    eligible4050,
+    level
   } = input;
 
   // 如果已经到退休年龄，直接返回
@@ -120,8 +121,11 @@ function simulateFuturePay(input, retireAge, cityCfg) {
   let totalPersonalPay = 0;
   let unemploymentMonthsLeft = employmentStatus === "失业补贴内" ? cityCfg.unemploymentCutoffMonth : 0;
 
-  // 缴费基数
-  const adjustedBase = Math.min(Math.max(paymentBase, cityCfg.baseMin), cityCfg.baseMax);
+  // 根据level调整缴费基数
+  const adjustedBase = Math.min(
+    Math.max(paymentBase * (level / 100), cityCfg.baseMin),
+    cityCfg.baseMax
+  );
 
   // 计算需要模拟的月数
   const monthsToRetire = (retireAge - currentAge) * 12;
@@ -255,7 +259,7 @@ function generateSummary(retireAge, monthlyPension, breakEvenMonths) {
  * 输入验证
  */
 function validateInput(input) {
-  const required = ['city', 'currentAge', 'normalRetireAge', 'maxRetireAge', 'paymentYears', 'currentAccount', 'paymentBase', 'employmentStatus'];
+  const required = ['city', 'currentAge', 'normalRetireAge', 'maxRetireAge', 'paymentYears', 'currentAccount', 'paymentBase', 'employmentStatus', 'level'];
 
   for (const field of required) {
     if (input[field] === undefined || input[field] === null || input[field] === '') {
@@ -294,6 +298,11 @@ function validateInput(input) {
   // 验证个人账户余额
   if (input.currentAccount < 0) {
     throw new Error('个人账户余额不能为负数');
+  }
+
+  // 验证缴费指数
+  if (![60, 100, 200, 300].includes(input.level)) {
+    throw new Error('缴费指数level必须是60、100、200或300');
   }
 }
 

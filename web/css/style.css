@@ -483,6 +483,52 @@ body {
   border-bottom-color: #fff;
 }
 
+/* Level Selector */
+.level-selector {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.level-option {
+  flex: 1;
+  padding: 16px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.level-option:hover {
+  border-color: #1890ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.15);
+}
+
+.level-option.active {
+  border-color: #1890ff;
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  color: #fff;
+}
+
+.level-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.level-option.active .level-value,
+.level-option.active .level-desc {
+  color: #fff;
+}
+
+.level-desc {
+  font-size: 0.875rem;
+  color: #999;
+}
+
 /* Utility */
 .hidden {
   display: none !important;
@@ -517,5 +563,21 @@ body {
 
   .standard-weight {
     margin-top: 8px;
+  }
+
+  .level-selector {
+    gap: 8px;
+  }
+
+  .level-option {
+    padding: 12px 8px;
+  }
+
+  .level-value {
+    font-size: 1.1rem;
+  }
+
+  .level-desc {
+    font-size: 0.75rem;
   }
 }
