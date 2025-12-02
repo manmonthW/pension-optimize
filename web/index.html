@@ -23,33 +23,44 @@
           <h2 class="section-title">基本信息</h2>
 
           <div class="form-group">
+            <label for="personType">人员类型</label>
+            <select id="personType" name="personType" required>
+              <option value="男职工">男职工</option>
+              <option value="女干部">女干部</option>
+              <option value="女工人">女工人</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">出生年月</label>
+            <div class="birth-picker">
+              <select id="birthYear" name="birthYear" required class="birth-select">
+                <option value="">选择年份</option>
+              </select>
+              <span class="birth-separator">年</span>
+              <select id="birthMonth" name="birthMonth" required class="birth-select">
+                <option value="1">1月</option>
+                <option value="2">2月</option>
+                <option value="3">3月</option>
+                <option value="4">4月</option>
+                <option value="5">5月</option>
+                <option value="6">6月</option>
+                <option value="7" selected>7月</option>
+                <option value="8">8月</option>
+                <option value="9">9月</option>
+                <option value="10">10月</option>
+                <option value="11">11月</option>
+                <option value="12">12月</option>
+              </select>
+              <span class="birth-separator">月</span>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label for="city">城市</label>
             <select id="city" name="city" required>
               <option value="北京">北京</option>
             </select>
-          </div>
-
-          <div class="form-group">
-            <label for="currentAge">当前年龄</label>
-            <input type="number" id="currentAge" name="currentAge" min="16" max="65" required placeholder="请输入当前年龄">
-          </div>
-
-          <div class="form-group">
-            <label for="gender">性别</label>
-            <select id="gender" name="gender" required>
-              <option value="女">女</option>
-              <option value="男">男</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="normalRetireAge">正常退休年龄</label>
-            <input type="number" id="normalRetireAge" name="normalRetireAge" min="50" max="65" required placeholder="请输入正常退休年龄">
-          </div>
-
-          <div class="form-group">
-            <label for="maxRetireAge">最晚退休年龄</label>
-            <input type="number" id="maxRetireAge" name="maxRetireAge" min="50" max="65" required placeholder="请输入最晚退休年龄">
           </div>
         </div>
 
@@ -61,9 +72,9 @@
             <label for="employmentStatus">当前就业状态</label>
             <select id="employmentStatus" name="employmentStatus" required>
               <option value="在职">在职</option>
-              <option value="灵活就业">灵活就业</option>
               <option value="失业补贴内">失业补贴内</option>
               <option value="失业补贴外">失业补贴外</option>
+              <option value="灵活就业">灵活就业</option>
             </select>
           </div>
 
@@ -74,24 +85,24 @@
           </div>
 
           <div class="form-group">
-            <label for="paymentYears">累计缴费年限（年）</label>
-            <input type="number" id="paymentYears" name="paymentYears" min="0" max="50" step="0.1" required placeholder="请输入缴费年限">
+            <label for="paidYears">累计缴费年限（年）</label>
+            <input type="number" id="paidYears" name="paidYears" min="0" max="50" step="0.1" required placeholder="请输入缴费年限">
           </div>
 
           <div class="form-group">
-            <label for="currentAccount">个人账户余额（元）</label>
-            <input type="number" id="currentAccount" name="currentAccount" min="0" step="0.01" required placeholder="请输入账户余额">
+            <label for="accountBalance">个人账户余额（元）</label>
+            <input type="number" id="accountBalance" name="accountBalance" min="0" step="0.01" required placeholder="请输入账户余额">
           </div>
 
           <div class="form-group">
             <label class="form-label">是否享受4050补贴</label>
             <div class="radio-group">
               <label class="radio-item">
-                <input type="radio" name="eligible4050" value="true">
+                <input type="radio" name="is4050" value="true">
                 <span>是</span>
               </label>
               <label class="radio-item">
-                <input type="radio" name="eligible4050" value="false" checked>
+                <input type="radio" name="is4050" value="false" checked>
                 <span>否</span>
               </label>
             </div>

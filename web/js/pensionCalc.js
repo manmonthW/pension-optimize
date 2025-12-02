@@ -30,20 +30,17 @@ function calculatePension(input) {
  * 生成退休年龄场景
  */
 function generateScenarios(input) {
-  const scenarios = [];
-  const { normalRetireAge, maxRetireAge } = input;
+  const { personType } = input;
 
-  for (let age = normalRetireAge; age <= maxRetireAge; age++) {
-    if (N_TABLE[age]) {
-      scenarios.push(age);
-    }
+  if (personType === "男职工") {
+    return [60, 61, 62, 63];
+  } else if (personType === "女干部") {
+    return [55, 56, 57, 58];
+  } else if (personType === "女工人") {
+    return [50, 51, 52, 53, 55];
   }
 
-  if (scenarios.length === 0) {
-    throw new Error('没有有效的退休年龄方案');
-  }
-
-  return scenarios;
+  throw new Error('未知的人员类型');
 }
 
 /**
@@ -74,7 +71,7 @@ function calculateForAge(input, retireAge, cityCfg) {
     : 0;
 
   // 生成方案名称
-  const planName = getPlanName(input.normalRetireAge, retireAge);
+  const planName = getPlanName(input.personType, retireAge);
 
   return {
     name: planName,
@@ -97,27 +94,37 @@ function calculateForAge(input, retireAge, cityCfg) {
  */
 function simulateFuturePay(input, retireAge, cityCfg) {
   const {
-    currentAge,
+    birthYear,
+    birthMonth,
     paymentBase,
-    paymentYears,
-    currentAccount,
+    paidYears,
+    accountBalance,
     employmentStatus,
-    eligible4050,
+    is4050,
     level
   } = input;
+
+  // 计算当前年龄和退休日期
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+
+  const currentAge = currentYear - birthYear - (currentMonth < birthMonth ? 1 : 0);
+  const retireYear = birthYear + retireAge;
+  const retireMonth = birthMonth;
 
   // 如果已经到退休年龄，直接返回
   if (currentAge >= retireAge) {
     return {
       totalPay: 0,
-      accountBalance: currentAccount,
-      totalYears: paymentYears
+      accountBalance,
+      totalYears: paidYears
     };
   }
 
   // 初始化模拟状态
-  let currentAccountBalance = currentAccount;
-  let currentTotalYears = paymentYears;
+  let currentAccountBalance = accountBalance;
+  let currentTotalYears = paidYears;
   let totalPersonalPay = 0;
   let unemploymentMonthsLeft = employmentStatus === "失业补贴内" ? cityCfg.unemploymentCutoffMonth : 0;
 
@@ -127,12 +134,12 @@ function simulateFuturePay(input, retireAge, cityCfg) {
     cityCfg.baseMax
   );
 
-  // 计算需要模拟的月数
-  const monthsToRetire = (retireAge - currentAge) * 12;
+  // 逐月模拟
+  let simYear = currentYear;
+  let simMonth = currentMonth;
   let monthsSimulated = 0;
 
-  // 逐月模拟
-  while (monthsSimulated < monthsToRetire) {
+  while (simYear < retireYear || (simYear === retireYear && simMonth <= retireMonth)) {
     // 计算当月缴费
     let monthlyPersonalPay = 0;
     let monthlyContribution = 0;
@@ -160,7 +167,7 @@ function simulateFuturePay(input, retireAge, cityCfg) {
     }
 
     // 应用4050补贴
-    if (eligible4050 && monthlyPersonalPay > 0) {
+    if (is4050 && monthlyPersonalPay > 0) {
       const subsidyAmount = cityCfg.subsidy4050 || 0;
       monthlyPersonalPay = Math.max(monthlyPersonalPay - subsidyAmount, 0);
     }
@@ -178,8 +185,13 @@ function simulateFuturePay(input, retireAge, cityCfg) {
 
     monthsSimulated++;
 
-    // 每12个月计息一次
-    if (monthsSimulated % 12 === 0) {
+    // 推进到下一个月
+    simMonth++;
+    if (simMonth > 12) {
+      simMonth = 1;
+      simYear++;
+
+      // 年底计息
       currentAccountBalance *= (1 + cityCfg.pensionInterestRate);
     }
 
@@ -234,7 +246,12 @@ function pickBestPlan(plans) {
 /**
  * 生成方案名称
  */
-function getPlanName(normalAge, retireAge) {
+function getPlanName(personType, retireAge) {
+  let normalAge;
+  if (personType === "男职工") normalAge = 60;
+  else if (personType === "女干部") normalAge = 55;
+  else if (personType === "女工人") normalAge = 50;
+
   if (retireAge === normalAge) {
     return `方案A (正常退休 ${retireAge}岁)`;
   } else if (retireAge > normalAge) {
@@ -259,44 +276,42 @@ function generateSummary(retireAge, monthlyPension, breakEvenMonths) {
  * 输入验证
  */
 function validateInput(input) {
-  const required = ['city', 'currentAge', 'normalRetireAge', 'maxRetireAge', 'paymentYears', 'currentAccount', 'paymentBase', 'employmentStatus', 'level'];
+  const required = ['personType', 'birthYear', 'birthMonth', 'paymentBase', 'paidYears', 'accountBalance', 'level'];
 
   for (const field of required) {
-    if (input[field] === undefined || input[field] === null || input[field] === '') {
+    if (input[field] === undefined || input[field] === null) {
       throw new Error(`缺少必填字段: ${field}`);
     }
   }
 
-  // 验证年龄
-  if (input.currentAge < 16 || input.currentAge > 65) {
-    throw new Error('当前年龄必须在16-65之间');
+  // 验证人员类型
+  if (!['男职工', '女干部', '女工人'].includes(input.personType)) {
+    throw new Error('无效的人员类型');
   }
 
-  if (input.normalRetireAge < 50 || input.normalRetireAge > 65) {
-    throw new Error('正常退休年龄必须在50-65之间');
+  // 验证出生年份
+  const currentYear = new Date().getFullYear();
+  if (input.birthYear < 1950 || input.birthYear > currentYear) {
+    throw new Error('出生年份无效');
   }
 
-  if (input.maxRetireAge < input.normalRetireAge) {
-    throw new Error('最晚退休年龄不能小于正常退休年龄');
-  }
-
-  if (input.currentAge >= input.maxRetireAge) {
-    throw new Error('当前年龄已达到或超过最晚退休年龄');
+  // 验证出生月份
+  if (input.birthMonth < 1 || input.birthMonth > 12) {
+    throw new Error('出生月份必须在1-12之间');
   }
 
   // 验证缴费基数
-  const cityCfg = CITY_CONFIG[input.city];
-  if (cityCfg && (input.paymentBase < cityCfg.baseMin || input.paymentBase > cityCfg.baseMax)) {
-    throw new Error(`缴费基数必须在${cityCfg.baseMin}-${cityCfg.baseMax}之间`);
+  if (input.paymentBase < 0) {
+    throw new Error('缴费基数不能为负数');
   }
 
   // 验证缴费年限
-  if (input.paymentYears < 0 || input.paymentYears > 50) {
+  if (input.paidYears < 0 || input.paidYears > 50) {
     throw new Error('缴费年限无效');
   }
 
   // 验证个人账户余额
-  if (input.currentAccount < 0) {
+  if (input.accountBalance < 0) {
     throw new Error('个人账户余额不能为负数');
   }
 

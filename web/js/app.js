@@ -9,10 +9,28 @@ const levelInput = document.getElementById('level');
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
+  initBirthYearSelector();
   updateBaseHint();
   citySelect.addEventListener('change', updateBaseHint);
   initLevelSelector();
 });
+
+// 初始化出生年份选择器
+function initBirthYearSelector() {
+  const birthYearSelect = document.getElementById('birthYear');
+  const currentYear = new Date().getFullYear();
+
+  // 生成 1950 到当前年份的选项
+  for (let year = 1950; year <= currentYear; year++) {
+    const option = document.createElement('option');
+    option.value = year;
+    option.textContent = year + '年';
+    birthYearSelect.appendChild(option);
+  }
+
+  // 默认选择1985年（示例年份）
+  birthYearSelect.value = 1985;
+}
 
 // 初始化缴费指数选择器
 function initLevelSelector() {
@@ -47,16 +65,15 @@ pensionForm.addEventListener('submit', (e) => {
     // 获取表单数据
     const formData = new FormData(pensionForm);
     const input = {
+      personType: formData.get('personType'),
+      birthYear: parseInt(formData.get('birthYear')),
+      birthMonth: parseInt(formData.get('birthMonth')),
       city: formData.get('city'),
-      currentAge: parseInt(formData.get('currentAge')),
-      gender: formData.get('gender'),
-      normalRetireAge: parseInt(formData.get('normalRetireAge')),
-      maxRetireAge: parseInt(formData.get('maxRetireAge')),
-      paymentYears: parseFloat(formData.get('paymentYears')),
-      currentAccount: parseFloat(formData.get('currentAccount')),
       paymentBase: parseFloat(formData.get('paymentBase')),
+      paidYears: parseFloat(formData.get('paidYears')),
+      accountBalance: parseFloat(formData.get('accountBalance')),
       employmentStatus: formData.get('employmentStatus'),
-      eligible4050: formData.get('eligible4050') === 'true',
+      is4050: formData.get('is4050') === 'true',
       level: parseInt(formData.get('level'))
     };
 

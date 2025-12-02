@@ -136,6 +136,34 @@ body {
   color: #555;
 }
 
+/* Birth Picker */
+.birth-picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.birth-select {
+  flex: 1;
+  padding: 12px 16px;
+  background: #f7f7f7;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.birth-select:focus {
+  outline: none;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.birth-separator {
+  font-size: 1rem;
+  color: #333;
+}
+
 /* Submit Container */
 .submit-container {
   padding: 40px 20px 20px;
